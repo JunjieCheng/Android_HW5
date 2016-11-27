@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.provider.MediaStore;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -138,17 +139,26 @@ public class Canvas extends View {
 
     public void undo() {
         if (!stack.isEmpty()) {
-            allPaths.get(stack.pop()).pop();
+            if (stack.peek() < 3) {
+                allPaths.get(stack.pop()).pop();
+            }
+            else {
+                stack.pop();
+                iconStack.pop();
+            }
+
             invalidate();
         }
     }
 
     public void onDoubleTap(float x, float y) {
         iconStack.push(new IconInfo(100, x - 75, y - 75));
+        stack.push(100);
     }
 
     public void onLongPress(float x, float y) {
         iconStack.push(new IconInfo(101, x - 75, y - 75));
+        stack.push(101);
     }
 
 }

@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -102,6 +103,10 @@ public class CanvasActivity extends AppCompatActivity implements View.OnClickLis
                 canvas.clear();
                 break;
             case R.id.done_button:
+                canvas.setDrawingCacheEnabled(true);
+                canvas.destroyDrawingCache();
+                Bitmap image = canvas.getDrawingCache();
+                MediaStore.Images.Media.insertImage(getContentResolver(),image, "HW5" , "");
                 finish();
                 break;
         }
